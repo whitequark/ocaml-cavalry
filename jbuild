@@ -1,0 +1,30 @@
+(jbuild_version 1)
+
+(executable
+ ((name cavalry_read)
+  (preprocess (pps (ppx_deriving.show ppx_deriving.enum)))
+  (modules (cavalry cavalry_read))))
+
+(library
+ ((name dyn)
+  (ocamlc_flags (-dlambda))
+  (modules (dyn))))
+
+(library
+ ((name dyn_test_common)
+  (modules (dyn_test_common))
+  (libraries (dyn))))
+
+(executable
+ ((name dyn_test)
+  (modules (dyn_test))
+  (libraries (dyn dyn_test_common dynlink))))
+
+(library
+ ((name dyn_test_plugin)
+  (modules (dyn_test_plugin))
+  (libraries (dyn dyn_test_common))))
+
+(alias
+ ((name all)
+  (deps (cavalry_read.exe dyn_test.exe dyn_test_plugin.cmxs))))
